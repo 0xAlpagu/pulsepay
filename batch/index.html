@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulsePay &middot; Batch Payment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="../abi.js" defer></script>
+    <script src="../wallet.js" defer></script>
+    <script src="batch.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+    <a href="../" class="wordmark">
+        <span class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" width="36" height="36">
+                <path d="M4 26 Q13 16 22 26 Q31 16 40 26" fill="none" stroke="var(--clay)" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M4 33 Q13 23 22 33 Q31 23 40 33" fill="none" stroke="var(--clay-dim)" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M2 20 L14 20 L18 10 L23 28 L27 16 L30 20 L42 20" fill="none" stroke="var(--pulse)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </span>
+        <div class="wordmark-text">
+            <h1>PulsePay</h1>
+            <p>Real-time streams on GIWA</p>
+        </div>
+    </a>
+    <button id="connectWallet" class="btn-connect">Connect Wallet</button>
+</header>
+
+<main>
+
+<a href="../" class="back-link">&larr; Back to dashboard</a>
+
+<section class="createForm createForm-top">
+    <div class="form-heading">
+        <h2>Batch Payment</h2>
+        <p>Pay several people in a single transaction, e.g. a team or DAO payroll run. Each recipient gets their own independent stream.</p>
+    </div>
+    <textarea id="batchRows" class="mono" placeholder="One recipient per line: 0xAddress, amount in ETH&#10;0x1111... , 0.02&#10;0x2222... , 0.05"></textarea>
+    <div class="field-row">
+        <select id="batchDuration">
+            <option value="3600">1 hour</option>
+            <option value="86400" selected>1 day</option>
+            <option value="604800">1 week</option>
+            <option value="2592000">30 days</option>
+            <option value="custom">Custom duration&hellip;</option>
+        </select>
+        <button id="createBatch" type="button">Send Batch</button>
+    </div>
+    <div class="field-row custom-duration-row" id="customDurationRow">
+        <input id="customDurationValue" type="number" min="1" placeholder="Amount (e.g. 3)">
+        <select id="customDurationUnit">
+            <option value="3600" selected>Hours</option>
+            <option value="86400">Days</option>
+            <option value="604800">Weeks</option>
+            <option value="2592000">Months (30 days)</option>
+        </select>
+    </div>
+    <p id="batchStatus"></p>
+    <p class="faucet-note">
+        Need test ETH? Get some from the
+        <a href="https://faucet.giwa.io" target="_blank" rel="noopener">official GIWA faucet</a>.
+    </p>
+</section>
+
+</main>
+
+<footer>
+    <p>Built with Solidity &middot; GIWA Network &middot; Ethers.js</p>
+</footer>
+
+</body>
+</html>
