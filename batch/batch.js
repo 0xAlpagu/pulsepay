@@ -20,7 +20,10 @@ function getBatchDurationSeconds() {
     return Number(batchDuration.value);
 }
 
-function onWalletConnected() {}
+function onWalletConnected() {
+    loadStreams();
+}
+
 function onWalletError() {
     batchStatus.textContent = "Could not connect wallet.";
     batchStatus.classList.add("error");
@@ -75,6 +78,7 @@ async function createBatch() {
 
         batchStatus.textContent = `Batch sent to ${recipients.length} recipients.`;
         batchRows.value = "";
+        loadStreams();
     } catch (err) {
         console.error(err);
         batchStatus.textContent = "Batch transaction failed.";
