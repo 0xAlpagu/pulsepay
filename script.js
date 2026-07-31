@@ -19,7 +19,43 @@ const batchDuration = document.getElementById("batchDuration");
 const createBatchBtn = document.getElementById("createBatch");
 const batchStatus = document.getElementById("batchStatus");
 
+const customDurationRow = document.getElementById("customDurationRow");
+const customDurationValue = document.getElementById("customDurationValue");
+const customDurationUnit = document.getElementById("customDurationUnit");
+
+const customDurationRowSingle = document.getElementById("customDurationRowSingle");
+const customDurationValueSingle = document.getElementById("customDurationValueSingle");
+const customDurationUnitSingle = document.getElementById("customDurationUnitSingle");
+
 contractAddressText.textContent = contractAddress;
+
+batchDuration.addEventListener("change", () => {
+    customDurationRow.classList.toggle("visible", batchDuration.value === "custom");
+});
+
+duration.addEventListener("change", () => {
+    customDurationRowSingle.classList.toggle("visible", duration.value === "custom");
+});
+
+function getBatchDurationSeconds() {
+    if (batchDuration.value === "custom") {
+        const val = Number(customDurationValue.value);
+        if (!val || val <= 0) return null;
+        return val * Number(customDurationUnit.value);
+    }
+    return Number(batchDuration.value);
+}
+
+function getSingleDurationSeconds() {
+    if (duration.value === "custom") {
+        const val = Number(customDurationValueSingle.value);
+        if (!val || val <= 0) return null;
+        return val * Number(customDurationUnitSingle.value);
+    }
+    return Number(duration.value);
+}
+
+/* ---------- Network handling ---------- */
 
 const GIWA_CHAIN_ID = 91342;
 const GIWA_CHAIN_ID_HEX = "0x" + GIWA_CHAIN_ID.toString(16);
@@ -100,9 +136,11 @@ async function autoConnectIfAuthorized() {
 }
 
 connectBtn.addEventListener("click", connectWallet);
-autoConnectIfAuthorized();
 createStreamBtn.addEventListener("click", createStream);
 createBatchBtn.addEventListener("click", createBatch);
+autoConnectIfAuthorized();
+
+/* ---------- Contract interaction ---------- */
 
 async function createStream() {
     if (!contract) return;
@@ -120,9 +158,16 @@ async function createStream() {
             return;
         }
 
+        const durationSeconds = getSingleDurationSeconds();
+        if (!durationSeconds) {
+            status.textContent = "Enter a valid custom duration.";
+            status.classList.add("error");
+            return;
+        }
+
         status.textContent = "Sending transaction...";
         const value = ethers.utils.parseEther(amount.value);
-        const tx = await contract.createStream(recipient.value, duration.value, { value });
+        const tx = await contract.createStream(recipient.value, durationSeconds, { value });
         await tx.wait();
 
         status.textContent = "Stream created successfully.";
@@ -164,8 +209,15 @@ async function createBatch() {
             totalEth += Number(parts[1]);
         }
 
+        const durationSeconds = getBatchDurationSeconds();
+        if (!durationSeconds) {
+            batchStatus.textContent = "Enter a valid custom duration.";
+            batchStatus.classList.add("error");
+            return;
+        }
+
         batchStatus.textContent = "Sending batch transaction...";
-        const tx = await contract.createStreamBatch(recipients, amounts, batchDuration.value, {
+        const tx = await contract.createStreamBatch(recipients, amounts, durationSeconds, {
             value: ethers.utils.parseEther(totalEth.toString())
         });
         await tx.wait();
