@@ -33,6 +33,12 @@
     <button id="connectWallet" class="btn-connect">Connect Wallet</button>
 </header>
 
+<a href="https://faucet.giwa.io" target="_blank" rel="noopener" class="faucet-banner">
+    <span class="faucet-banner-icon" aria-hidden="true">&#9679;</span>
+    <span>Need test ETH to try PulsePay? Get some from the official GIWA faucet</span>
+    <span class="faucet-banner-arrow" aria-hidden="true">&rarr;</span>
+</a>
+
 <main>
 
 <section class="hero">
@@ -52,11 +58,30 @@
     </svg>
 </div>
 
-<a href="https://faucet.giwa.io" target="_blank" rel="noopener" class="faucet-banner">
-    <span class="faucet-banner-icon" aria-hidden="true">&#9679;</span>
-    <span>Need test ETH to try PulsePay? Get some from the official GIWA faucet</span>
-    <span class="faucet-banner-arrow" aria-hidden="true">&rarr;</span>
-</a>
+<section class="nav-cards">
+    <a href="stream/" class="nav-card">
+        <div class="nav-card-text">
+            <span class="nav-card-tag">Single payment</span>
+            <h3>Create a Stream</h3>
+            <p>Pay one recipient, unlocking second by second.</p>
+        </div>
+        <div class="nav-card-cta">
+            <span class="nav-card-arrow-icon" aria-hidden="true">&rarr;</span>
+            <span class="nav-card-cta-label">Start a stream</span>
+        </div>
+    </a>
+    <a href="batch/" class="nav-card">
+        <div class="nav-card-text">
+            <span class="nav-card-tag">Multiple recipients</span>
+            <h3>Batch Payment</h3>
+            <p>Pay a whole team or vendor list in one transaction.</p>
+        </div>
+        <div class="nav-card-cta">
+            <span class="nav-card-arrow-icon" aria-hidden="true">&rarr;</span>
+            <span class="nav-card-cta-label">Send a batch</span>
+        </div>
+    </a>
+</section>
 
 <section class="dashboard">
     <div class="card">
@@ -75,25 +100,6 @@
         <span class="card-label">Active Streams</span>
         <p id="streamCount" class="card-value big">0</p>
     </div>
-</section>
-
-<section class="nav-cards">
-    <a href="stream/" class="nav-card">
-        <div class="nav-card-top">
-            <span class="nav-card-tag">Single payment</span>
-            <span class="nav-card-arrow">Start a stream &rarr;</span>
-        </div>
-        <h3>Create a Stream</h3>
-        <p>Pay one recipient, unlocking second by second.</p>
-    </a>
-    <a href="batch/" class="nav-card">
-        <div class="nav-card-top">
-            <span class="nav-card-tag">Multiple recipients</span>
-            <span class="nav-card-arrow">Send a batch &rarr;</span>
-        </div>
-        <h3>Batch Payment</h3>
-        <p>Pay a whole team or vendor list in one transaction.</p>
-    </a>
 </section>
 
 </main>
