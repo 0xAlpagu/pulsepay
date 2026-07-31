@@ -402,3 +402,16 @@ footer {
     .field-row { grid-template-columns: 1fr; }
     .createForm, .streams { margin-top: 56px; }
 }
+.custom-duration-row {
+    display: none;
+    margin-top: -4px;
+}
+
+.custom-duration-row.visible {
+    display: grid;
+}
+
+.btn-connect.connected {
+    background: linear-gradient(135deg, var(--signal), #2bb37c);
+    box-shadow: 0 8px 24px rgba(61, 220, 151, 0.25);
+}
