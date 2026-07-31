@@ -82,8 +82,18 @@
             <option value="86400" selected>1 day</option>
             <option value="604800">1 week</option>
             <option value="2592000">30 days</option>
+            <option value="custom">Custom duration&hellip;</option>
         </select>
         <input id="amount" type="text" placeholder="Amount in ETH (e.g. 0.05)" autocomplete="off">
+    </div>
+    <div class="field-row custom-duration-row" id="customDurationRowSingle">
+        <input id="customDurationValueSingle" type="number" min="1" placeholder="Amount (e.g. 3)">
+        <select id="customDurationUnitSingle">
+            <option value="3600" selected>Hours</option>
+            <option value="86400">Days</option>
+            <option value="604800">Weeks</option>
+            <option value="2592000">Months (30 days)</option>
+        </select>
     </div>
     <button id="createStream">Create Stream</button>
     <p id="status"></p>
@@ -105,8 +115,18 @@
             <option value="86400" selected>1 day</option>
             <option value="604800">1 week</option>
             <option value="2592000">30 days</option>
+            <option value="custom">Custom duration&hellip;</option>
         </select>
         <button id="createBatch" type="button">Send Batch</button>
+    </div>
+    <div class="field-row custom-duration-row" id="customDurationRow">
+        <input id="customDurationValue" type="number" min="1" placeholder="Amount (e.g. 3)">
+        <select id="customDurationUnit">
+            <option value="3600" selected>Hours</option>
+            <option value="86400">Days</option>
+            <option value="604800">Weeks</option>
+            <option value="2592000">Months (30 days)</option>
+        </select>
     </div>
     <p id="batchStatus"></p>
 </section>
