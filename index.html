@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script src="abi.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="wallet.js" defer></script>
+    <script src="main.js" defer></script>
 </head>
 <body>
 
@@ -51,6 +52,12 @@
     </svg>
 </div>
 
+<a href="https://faucet.giwa.io" target="_blank" rel="noopener" class="faucet-banner">
+    <span class="faucet-banner-icon" aria-hidden="true">&#9679;</span>
+    <span>Need test ETH to try PulsePay? Get some from the official GIWA faucet</span>
+    <span class="faucet-banner-arrow" aria-hidden="true">&rarr;</span>
+</a>
+
 <section class="dashboard">
     <div class="card">
         <span class="card-label">Wallet</span>
@@ -70,65 +77,19 @@
     </div>
 </section>
 
-<section class="createForm">
-    <div class="form-heading">
-        <h2>Create a Stream</h2>
-        <p>Send ETH that unlocks to the recipient second by second.</p>
-    </div>
-    <input id="recipient" type="text" placeholder="Recipient address (0x...)" class="mono" autocomplete="off">
-    <div class="field-row">
-        <select id="duration">
-            <option value="3600">1 hour</option>
-            <option value="86400" selected>1 day</option>
-            <option value="604800">1 week</option>
-            <option value="2592000">30 days</option>
-            <option value="custom">Custom duration&hellip;</option>
-        </select>
-        <input id="amount" type="text" placeholder="Amount in ETH (e.g. 0.05)" autocomplete="off">
-    </div>
-    <div class="field-row custom-duration-row" id="customDurationRowSingle">
-        <input id="customDurationValueSingle" type="number" min="1" placeholder="Amount (e.g. 3)">
-        <select id="customDurationUnitSingle">
-            <option value="3600" selected>Hours</option>
-            <option value="86400">Days</option>
-            <option value="604800">Weeks</option>
-            <option value="2592000">Months (30 days)</option>
-        </select>
-    </div>
-    <button id="createStream">Create Stream</button>
-    <p id="status"></p>
-    <p class="faucet-note">
-        Need test ETH? Get some from the
-        <a href="https://faucet.giwa.io" target="_blank" rel="noopener">official GIWA faucet</a>.
-    </p>
-</section>
-
-<section class="createForm">
-    <div class="form-heading">
-        <h2>Batch Payment</h2>
-        <p>Pay several people in a single transaction, e.g. a team or DAO payroll run.</p>
-    </div>
-    <textarea id="batchRows" class="mono" placeholder="One recipient per line: 0xAddress, amount in ETH&#10;0x1111... , 0.02&#10;0x2222... , 0.05"></textarea>
-    <div class="field-row">
-        <select id="batchDuration">
-            <option value="3600">1 hour</option>
-            <option value="86400" selected>1 day</option>
-            <option value="604800">1 week</option>
-            <option value="2592000">30 days</option>
-            <option value="custom">Custom duration&hellip;</option>
-        </select>
-        <button id="createBatch" type="button">Send Batch</button>
-    </div>
-    <div class="field-row custom-duration-row" id="customDurationRow">
-        <input id="customDurationValue" type="number" min="1" placeholder="Amount (e.g. 3)">
-        <select id="customDurationUnit">
-            <option value="3600" selected>Hours</option>
-            <option value="86400">Days</option>
-            <option value="604800">Weeks</option>
-            <option value="2592000">Months (30 days)</option>
-        </select>
-    </div>
-    <p id="batchStatus"></p>
+<section class="nav-cards">
+    <a href="stream/" class="nav-card">
+        <span class="nav-card-tag">Single payment</span>
+        <h3>Create a Stream</h3>
+        <p>Send ETH to one recipient that unlocks continuously, second by second, over a duration you choose.</p>
+        <span class="nav-card-arrow">Start a stream &rarr;</span>
+    </a>
+    <a href="batch/" class="nav-card">
+        <span class="nav-card-tag">Multiple recipients</span>
+        <h3>Batch Payment</h3>
+        <p>Pay a whole team, DAO, or vendor list in one transaction, each recipient streaming independently.</p>
+        <span class="nav-card-arrow">Send a batch &rarr;</span>
+    </a>
 </section>
 
 <section class="streams">
