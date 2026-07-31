@@ -1,0 +1,19 @@
+const contractAddress = "0x0000000000000000000000000000000000000000";
+
+const contractABI = [
+    { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+    { "inputs": [], "name": "platform", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" },
+    { "inputs": [], "name": "PLATFORM_FEE_BPS", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+    { "inputs": [{ "internalType": "address", "name": "recipient", "type": "address" }, { "internalType": "uint256", "name": "duration", "type": "uint256" }], "name": "createStream", "outputs": [], "stateMutability": "payable", "type": "function" },
+    { "inputs": [{ "internalType": "address[]", "name": "recipients", "type": "address[]" }, { "internalType": "uint256[]", "name": "amounts", "type": "uint256[]" }, { "internalType": "uint256", "name": "duration", "type": "uint256" }], "name": "createStreamBatch", "outputs": [], "stateMutability": "payable", "type": "function" },
+    { "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "pauseStream", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    { "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "resumeStream", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    { "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "unlockedAmount", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+    { "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "withdraw", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+    { "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "getStream", "outputs": [{ "internalType": "address", "name": "sender", "type": "address" }, { "internalType": "address", "name": "recipient", "type": "address" }, { "internalType": "uint256", "name": "totalAmount", "type": "uint256" }, { "internalType": "uint256", "name": "startTime", "type": "uint256" }, { "internalType": "uint256", "name": "duration", "type": "uint256" }, { "internalType": "uint256", "name": "withdrawn", "type": "uint256" }, { "internalType": "bool", "name": "active", "type": "bool" }, { "internalType": "bool", "name": "paused", "type": "bool" }], "stateMutability": "view", "type": "function" },
+    { "inputs": [], "name": "getStreamCount", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
+    { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": true, "internalType": "address", "name": "sender", "type": "address" }, { "indexed": true, "internalType": "address", "name": "recipient", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "duration", "type": "uint256" }], "name": "StreamCreated", "type": "event" },
+    { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" }, { "indexed": true, "internalType": "address", "name": "recipient", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }], "name": "Withdrawn", "type": "event" },
+    { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "StreamPaused", "type": "event" },
+    { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" }], "name": "StreamResumed", "type": "event" }
+];
