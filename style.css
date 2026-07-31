@@ -246,6 +246,13 @@ a, button, input, textarea, select { font-family: inherit; }
     border-color: var(--pulse-dim);
 }
 
+.nav-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
 .nav-card-tag {
     display: inline-block;
     font-family: var(--font-mono);
@@ -253,7 +260,6 @@ a, button, input, textarea, select { font-family: inherit; }
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--pulse);
-    margin-bottom: 8px;
 }
 
 .nav-card h3 {
@@ -266,13 +272,18 @@ a, button, input, textarea, select { font-family: inherit; }
 .nav-card p {
     color: var(--muted);
     font-size: 0.84rem;
-    margin-bottom: 12px;
+    margin-bottom: 0;
 }
 
 .nav-card-arrow {
     color: var(--signal);
-    font-weight: 600;
-    font-size: 0.84rem;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.nav-card:hover .nav-card-arrow {
+    transform: translateX(3px);
 }
 
 .back-link {
