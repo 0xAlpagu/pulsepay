@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script src="../abi.js" defer></script>
     <script src="../wallet.js" defer></script>
+    <script src="../streams-list.js" defer></script>
     <script src="stream.js" defer></script>
 </head>
 <body>
@@ -67,6 +68,16 @@
         Need test ETH? Get some from the
         <a href="https://faucet.giwa.io" target="_blank" rel="noopener">official GIWA faucet</a>.
     </p>
+</section>
+
+<section class="streams streams-compact">
+    <div class="streams-heading">
+        <h2>My Streams</h2>
+        <p>Streams where you're the sender or the recipient.</p>
+    </div>
+    <div id="streamList">
+        <p class="empty">Connect your wallet to see your streams.</p>
+    </div>
 </section>
 
 </main>
