@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulsePay</title>
+    <meta name="description" content="Real-time payment streams on the GIWA Network">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="abi.js" defer></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="wordmark">
+        <span class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 44 44" width="36" height="36">
+                <path d="M4 26 Q13 16 22 26 Q31 16 40 26" fill="none" stroke="var(--clay)" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M4 33 Q13 23 22 33 Q31 23 40 33" fill="none" stroke="var(--clay-dim)" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M2 20 L14 20 L18 10 L23 28 L27 16 L30 20 L42 20" fill="none" stroke="var(--pulse)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </span>
+        <div class="wordmark-text">
+            <h1>PulsePay</h1>
+            <p>Real-time streams on GIWA</p>
+        </div>
+    </div>
+    <button id="connectWallet" class="btn-connect">Connect Wallet</button>
+</header>
+
+<main>
+
+<section class="hero">
+    <p class="eyebrow">GIWA Sepolia &middot; 1-Second Blocks</p>
+    <h2 class="hero-title">Payments that beat<br><span class="ink-accent">with GIWA.</span></h2>
+    <p class="hero-sub">
+        GIWA settles a new block every second. PulsePay streams your payment at that same
+        rhythm, so funds unlock continuously instead of arriving once a month.
+    </p>
+</section>
+
+<div class="pulse-strip" aria-hidden="true">
+    <svg viewBox="0 0 1200 90" preserveAspectRatio="none" class="pulse-svg">
+        <path class="tile-row tile-row-back" d="M0 60 Q50 30 100 60 Q150 30 200 60 Q250 30 300 60 Q350 30 400 60 Q450 30 500 60 Q550 30 600 60 Q650 30 700 60 Q750 30 800 60 Q850 30 900 60 Q950 30 1000 60 Q1050 30 1100 60 Q1150 30 1200 60" />
+        <path class="tile-row tile-row-front" d="M0 74 Q50 46 100 74 Q150 46 200 74 Q250 46 300 74 Q350 46 400 74 Q450 46 500 74 Q550 46 600 74 Q650 46 700 74 Q750 46 800 74 Q850 46 900 74 Q950 46 1000 74 Q1050 46 1100 74 Q1150 46 1200 74" />
+        <path class="pulse-line" d="M0 45 L120 45 L145 10 L175 80 L200 45 L340 45 L365 10 L395 80 L420 45 L560 45 L585 10 L615 80 L640 45 L780 45 L805 10 L835 80 L860 45 L1000 45 L1025 10 L1055 80 L1080 45 L1200 45" />
+    </svg>
+</div>
+
+<section class="dashboard">
+    <div class="card">
+        <span class="card-label">Wallet</span>
+        <p id="walletAddress" class="card-value mono">Not Connected</p>
+    </div>
+    <div class="card">
+        <span class="card-label">Network</span>
+        <p id="networkName" class="card-value mono">Unknown</p>
+    </div>
+    <div class="card">
+        <span class="card-label">Contract</span>
+        <p id="contractAddress" class="card-value mono">Loading&hellip;</p>
+    </div>
+    <div class="card card-accent">
+        <span class="card-label">Active Streams</span>
+        <p id="streamCount" class="card-value big">0</p>
+    </div>
+</section>
+
+<section class="createForm">
+    <div class="form-heading">
+        <h2>Create a Stream</h2>
+        <p>Send ETH that unlocks to the recipient second by second.</p>
+    </div>
+    <input id="recipient" type="text" placeholder="Recipient address (0x...)" class="mono" autocomplete="off">
+    <div class="field-row">
+        <select id="duration">
+            <option value="3600">1 hour</option>
+            <option value="86400" selected>1 day</option>
+            <option value="604800">1 week</option>
+            <option value="2592000">30 days</option>
+        </select>
+        <input id="amount" type="text" placeholder="Amount in ETH (e.g. 0.05)" autocomplete="off">
+    </div>
+    <button id="createStream">Create Stream</button>
+    <p id="status"></p>
+    <p class="faucet-note">
+        Need test ETH? Get some from the
+        <a href="https://faucet.giwa.io" target="_blank" rel="noopener">official GIWA faucet</a>.
+    </p>
+</section>
+
+<section class="createForm">
+    <div class="form-heading">
+        <h2>Batch Payment</h2>
+        <p>Pay several people in a single transaction, e.g. a team or DAO payroll run.</p>
+    </div>
+    <textarea id="batchRows" class="mono" placeholder="One recipient per line: 0xAddress, amount in ETH&#10;0x1111... , 0.02&#10;0x2222... , 0.05"></textarea>
+    <div class="field-row">
+        <select id="batchDuration">
+            <option value="3600">1 hour</option>
+            <option value="86400" selected>1 day</option>
+            <option value="604800">1 week</option>
+            <option value="2592000">30 days</option>
+        </select>
+        <button id="createBatch" type="button">Send Batch</button>
+    </div>
+    <p id="batchStatus"></p>
+</section>
+
+<section class="streams">
+    <div class="streams-heading">
+        <h2>My Streams</h2>
+        <p>Streams where you're the sender or the recipient.</p>
+    </div>
+    <div id="streamList">
+        <p class="empty">No streams yet.</p>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <p>Built with Solidity &middot; GIWA Network &middot; Ethers.js</p>
+</footer>
+
+</body>
+</html>
