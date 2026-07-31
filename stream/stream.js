@@ -21,7 +21,10 @@ function getSingleDurationSeconds() {
     return Number(duration.value);
 }
 
-function onWalletConnected() {}
+function onWalletConnected() {
+    loadStreams();
+}
+
 function onWalletError() {
     status.textContent = "Could not connect wallet.";
     status.classList.add("error");
@@ -64,6 +67,7 @@ async function createStream() {
         status.textContent = "Stream created successfully.";
         recipient.value = "";
         amount.value = "";
+        loadStreams();
     } catch (err) {
         console.error(err);
         status.textContent = "Transaction failed.";
