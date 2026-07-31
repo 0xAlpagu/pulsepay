@@ -56,6 +56,10 @@ function describeNetwork(chainId) {
     return "Unsupported network";
 }
 
+function shortenAddress(addr) {
+    return addr.slice(0, 6) + "..." + addr.slice(-4);
+}
+
 async function connectWallet() {
     if (!window.ethereum) {
         alert("No EVM wallet detected. Open this page inside your wallet app's browser, or install a wallet extension.");
@@ -73,6 +77,8 @@ async function connectWallet() {
         networkName.textContent = describeNetwork(network.chainId) + " (" + network.chainId + ")";
 
         contract = new ethers.Contract(contractAddress, contractABI, signer);
+        connectBtn.textContent = "Connected: " + shortenAddress(myAddress);
+        connectBtn.classList.add("connected");
         loadStreams();
     } catch (err) {
         console.error(err);
@@ -81,7 +87,20 @@ async function connectWallet() {
     }
 }
 
+async function autoConnectIfAuthorized() {
+    if (!window.ethereum) return;
+    try {
+        const accounts = await window.ethereum.request({ method: "eth_accounts" });
+        if (accounts.length > 0) {
+            await connectWallet();
+        }
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 connectBtn.addEventListener("click", connectWallet);
+autoConnectIfAuthorized();
 createStreamBtn.addEventListener("click", createStream);
 createBatchBtn.addEventListener("click", createBatch);
 
