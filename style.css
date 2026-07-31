@@ -10,6 +10,7 @@
     --clay: #c9905c;
     --clay-dim: #8a6440;
     --signal: #3ddc97;
+    --signal-dim: #2bb37c;
 
     --ink: #f2f4f8;
     --muted: #97a0b8;
@@ -92,7 +93,7 @@ a, button, input, textarea, select { font-family: inherit; }
 }
 
 .btn-connect.connected {
-    background: linear-gradient(135deg, var(--signal), #2bb37c);
+    background: linear-gradient(135deg, var(--signal), var(--signal-dim));
     box-shadow: 0 8px 24px rgba(61, 220, 151, 0.25);
 }
 
@@ -193,19 +194,50 @@ a, button, input, textarea, select { font-family: inherit; }
 }
 
 .nav-card {
+    position: relative;
     display: block;
-    background: var(--panel);
-    border: 1px solid var(--border-strong);
+    padding: 26px 28px 26px 32px;
     border-radius: var(--radius-lg);
-    padding: 26px 28px;
-    backdrop-filter: blur(18px);
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    border: 1px solid transparent;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.nav-card:hover {
-    transform: translateY(-3px);
-    border-color: var(--pulse-dim);
+.nav-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 5px;
 }
+
+.nav-card-stream {
+    background: linear-gradient(135deg, rgba(255, 106, 77, 0.16), rgba(255, 106, 77, 0.03) 65%), var(--panel);
+    border-color: rgba(255, 106, 77, 0.3);
+    box-shadow: 0 14px 34px rgba(255, 106, 77, 0.1);
+}
+.nav-card-stream::before { background: linear-gradient(180deg, var(--pulse), var(--pulse-dim)); }
+
+.nav-card-batch {
+    background: linear-gradient(135deg, rgba(61, 220, 151, 0.16), rgba(61, 220, 151, 0.03) 65%), var(--panel);
+    border-color: rgba(61, 220, 151, 0.3);
+    box-shadow: 0 14px 34px rgba(61, 220, 151, 0.1);
+}
+.nav-card-batch::before { background: linear-gradient(180deg, var(--signal), var(--signal-dim)); }
+
+.nav-card:hover { transform: translateY(-4px); }
+
+.nav-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    margin-bottom: 12px;
+}
+
+.nav-card-stream .nav-card-icon { background: linear-gradient(135deg, var(--pulse), var(--pulse-dim)); }
+.nav-card-batch .nav-card-icon { background: linear-gradient(135deg, var(--signal), var(--signal-dim)); }
 
 .nav-card-top {
     display: flex;
@@ -213,7 +245,7 @@ a, button, input, textarea, select { font-family: inherit; }
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .nav-card-tag {
@@ -221,19 +253,21 @@ a, button, input, textarea, select { font-family: inherit; }
     font-size: 0.7rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--pulse);
 }
 
+.nav-card-stream .nav-card-tag { color: var(--pulse); }
+.nav-card-batch .nav-card-tag { color: var(--signal); }
+
 .nav-card-arrow {
-    color: var(--signal);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.88rem;
     transition: transform 0.2s ease;
 }
 
-.nav-card:hover .nav-card-arrow {
-    transform: translateX(3px);
-}
+.nav-card-stream .nav-card-arrow { color: var(--pulse); }
+.nav-card-batch .nav-card-arrow { color: var(--signal); }
+
+.nav-card:hover .nav-card-arrow { transform: translateX(3px); }
 
 .nav-card h3 {
     font-family: var(--font-display);
@@ -299,23 +333,23 @@ a, button, input, textarea, select { font-family: inherit; }
 
 .createForm {
     width: min(1200px, 90%);
-    margin: 30px auto 0;
+    margin: 26px auto 0;
     background: var(--panel);
     border-radius: var(--radius-lg);
-    padding: 26px 30px;
+    padding: 18px 30px;
     border: 1px solid var(--border);
     backdrop-filter: blur(18px);
 }
 
 .createForm-top { margin-top: 14px; }
 
-.form-heading { margin-bottom: 16px; }
+.form-heading { margin-bottom: 14px; }
 
 .form-heading h2 {
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 1.3rem;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .form-heading p { color: var(--muted); font-size: 0.84rem; }
@@ -368,11 +402,11 @@ a, button, input, textarea, select { font-family: inherit; }
     margin-top: -2px;
 }
 
-.custom-duration-row.visible { display: grid; }
+.custom-duration-row.visible { display: grid; margin-bottom: 12px; }
 
 #createStream {
     width: 100%;
-    margin-top: 4px;
+    margin-top: 2px;
     padding: 13px;
     border: none;
     border-radius: var(--radius-md);
@@ -400,17 +434,18 @@ a, button, input, textarea, select { font-family: inherit; }
 
 #createBatch:hover { transform: translateY(-1px); }
 
-#status { margin-top: 10px; color: var(--signal); font-size: 0.82rem; }
+#status:empty, #batchStatus:empty { margin: 0; }
+#status { margin-top: 8px; color: var(--signal); font-size: 0.82rem; }
 #status.error { color: var(--danger); }
 
-#batchStatus { margin-top: 10px; color: var(--signal); font-size: 0.82rem; }
+#batchStatus { margin-top: 8px; color: var(--signal); font-size: 0.82rem; }
 #batchStatus.error { color: var(--danger); }
 
-.faucet-note { margin-top: 14px; font-size: 0.78rem; color: var(--muted-dim); }
+.faucet-note { margin-top: 12px; font-size: 0.78rem; color: var(--muted-dim); }
 .faucet-note a { color: var(--pulse); text-decoration: underline; }
 
-.streams { width: min(1200px, 90%); margin: 26px auto 0; }
-.streams-compact { margin-top: 22px; }
+.streams { width: min(1200px, 90%); margin: 22px auto 0; }
+.streams-compact { margin-top: 20px; }
 .streams-heading { margin-bottom: 14px; }
 
 .streams-heading h2 {
@@ -487,7 +522,7 @@ a, button, input, textarea, select { font-family: inherit; }
     cursor: pointer;
     font-weight: 600;
     font-size: 0.82rem;
-    background: linear-gradient(135deg, var(--signal), #2bb37c);
+    background: linear-gradient(135deg, var(--signal), var(--signal-dim));
     color: #06140d;
 }
 
@@ -517,7 +552,7 @@ footer {
 @media (max-width: 768px) {
     .site-header { flex-direction: column; gap: 14px; align-items: flex-start; }
     .field-row { grid-template-columns: 1fr; }
-    .createForm, .streams { margin-top: 24px; }
+    .createForm, .streams { margin-top: 20px; }
     .nav-cards { grid-template-columns: 1fr; margin-top: 14px; }
     .dashboard { grid-template-columns: repeat(2, 1fr); }
     .nav-card-top { flex-direction: column; align-items: flex-start; }
