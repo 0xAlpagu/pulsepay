@@ -24,6 +24,10 @@ function onWalletConnected() {
     loadStreams();
 }
 
+function onWalletDisconnected() {
+    clearStreamList("Connect your wallet to see your streams.");
+}
+
 function onWalletError() {
     batchStatus.textContent = "Could not connect wallet.";
     batchStatus.classList.add("error");
@@ -79,6 +83,7 @@ async function createBatch() {
         batchStatus.textContent = `Batch sent to ${recipients.length} recipients.`;
         batchRows.value = "";
         loadStreams();
+        if (typeof refreshBalance === "function") refreshBalance();
     } catch (err) {
         console.error(err);
         batchStatus.textContent = "Batch transaction failed.";
