@@ -2,6 +2,7 @@ let provider;
 let signer;
 let contract;
 let myAddress = null;
+let balanceInterval = null;
 
 const GIWA_CHAIN_ID = 91342;
 const GIWA_CHAIN_ID_HEX = "0x" + GIWA_CHAIN_ID.toString(16);
@@ -49,6 +50,17 @@ function shortenAddress(addr) {
     return addr.slice(0, 6) + "..." + addr.slice(-4);
 }
 
+async function refreshBalance() {
+    if (!provider || !myAddress || !walletAddress) return;
+    try {
+        const bal = await provider.getBalance(myAddress);
+        const eth = Number(ethers.utils.formatEther(bal)).toFixed(4);
+        walletAddress.innerHTML = shortenAddress(myAddress) + '<span class="balance-line">' + eth + ' ETH</span>';
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 async function connectWallet() {
     if (!window.ethereum) {
         alert("No EVM wallet detected. Open this page inside your wallet app's browser, or install a wallet extension.");
@@ -60,7 +72,6 @@ async function connectWallet() {
         await provider.send("eth_requestAccounts", []);
         signer = provider.getSigner();
         myAddress = await signer.getAddress();
-        if (walletAddress) walletAddress.textContent = myAddress;
 
         const network = await provider.getNetwork();
         if (networkName) networkName.textContent = describeNetwork(network.chainId) + " (" + network.chainId + ")";
@@ -69,10 +80,53 @@ async function connectWallet() {
         connectBtn.textContent = "Connected: " + shortenAddress(myAddress);
         connectBtn.classList.add("connected");
 
+        await refreshBalance();
+        if (balanceInterval) clearInterval(balanceInterval);
+        balanceInterval = setInterval(refreshBalance, 15000);
+
         if (typeof onWalletConnected === "function") onWalletConnected();
     } catch (err) {
         console.error(err);
         if (typeof onWalletError === "function") onWalletError();
+    }
+}
+
+async function disconnectWallet() {
+    try {
+        if (window.ethereum && window.ethereum.request) {
+            await window.ethereum.request({
+                method: "wallet_revokePermissions",
+                params: [{ eth_accounts: {} }]
+            });
+        }
+    } catch (err) {
+        // Not all wallets support programmatic revoke — that's fine,
+        // we still reset the site's own view of the connection below.
+    }
+
+    if (balanceInterval) {
+        clearInterval(balanceInterval);
+        balanceInterval = null;
+    }
+
+    provider = undefined;
+    signer = undefined;
+    contract = undefined;
+    myAddress = null;
+
+    if (walletAddress) walletAddress.textContent = "Not Connected";
+    if (networkName) networkName.textContent = "Unknown";
+    connectBtn.textContent = "Connect Wallet";
+    connectBtn.classList.remove("connected");
+
+    if (typeof onWalletDisconnected === "function") onWalletDisconnected();
+}
+
+function toggleWallet() {
+    if (contract) {
+        disconnectWallet();
+    } else {
+        connectWallet();
     }
 }
 
@@ -86,5 +140,5 @@ async function autoConnectIfAuthorized() {
     }
 }
 
-connectBtn.addEventListener("click", connectWallet);
+connectBtn.addEventListener("click", toggleWallet);
 autoConnectIfAuthorized();
