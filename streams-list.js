@@ -30,6 +30,10 @@ async function withdrawStream(id) {
     }
 }
 
+function clearStreamList(message) {
+    if (streamList) streamList.innerHTML = `<p class="empty">${message}</p>`;
+}
+
 async function loadStreams() {
     if (!contract || !streamList) return;
     streamList.innerHTML = "";
