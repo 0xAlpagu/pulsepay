@@ -25,6 +25,10 @@ function onWalletConnected() {
     loadStreams();
 }
 
+function onWalletDisconnected() {
+    clearStreamList("Connect your wallet to see your streams.");
+}
+
 function onWalletError() {
     status.textContent = "Could not connect wallet.";
     status.classList.add("error");
@@ -68,6 +72,7 @@ async function createStream() {
         recipient.value = "";
         amount.value = "";
         loadStreams();
+        if (typeof refreshBalance === "function") refreshBalance();
     } catch (err) {
         console.error(err);
         status.textContent = "Transaction failed.";
