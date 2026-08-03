@@ -557,3 +557,9 @@ footer {
     .dashboard { grid-template-columns: repeat(2, 1fr); }
     .nav-card-top { flex-direction: column; align-items: flex-start; }
 }
+.balance-line {
+    display: block;
+    margin-top: 2px;
+    color: var(--signal);
+    font-size: 0.74rem;
+}
