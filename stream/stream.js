@@ -3,10 +3,13 @@ const amount = document.getElementById("amount");
 const recipient = document.getElementById("recipient");
 const createStreamBtn = document.getElementById("createStream");
 const status = document.getElementById("status");
+const feePreview = document.getElementById("feePreview");
 
 const customDurationRowSingle = document.getElementById("customDurationRowSingle");
 const customDurationValueSingle = document.getElementById("customDurationValueSingle");
 const customDurationUnitSingle = document.getElementById("customDurationUnitSingle");
+
+const PLATFORM_FEE_BPS = 25; // 0.25%, must match PulsePay.sol
 
 duration.addEventListener("change", () => {
     customDurationRowSingle.classList.toggle("visible", duration.value === "custom");
@@ -20,6 +23,20 @@ function getSingleDurationSeconds() {
     }
     return Number(duration.value);
 }
+
+function updateFeePreview() {
+    const val = Number(amount.value);
+    if (!val || val <= 0) {
+        feePreview.textContent = "";
+        return;
+    }
+    const fee = (val * PLATFORM_FEE_BPS) / 10000;
+    const net = val - fee;
+    feePreview.textContent =
+        `0.25% platform fee: ${fee.toFixed(6)} ETH \u2014 recipient streams ${net.toFixed(6)} ETH`;
+}
+
+amount.addEventListener("input", updateFeePreview);
 
 function onWalletConnected() {
     loadStreams();
@@ -71,6 +88,7 @@ async function createStream() {
         status.textContent = "Stream created successfully.";
         recipient.value = "";
         amount.value = "";
+        feePreview.textContent = "";
         loadStreams();
         if (typeof refreshBalance === "function") refreshBalance();
     } catch (err) {
