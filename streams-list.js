@@ -1,5 +1,42 @@
 const streamList = document.getElementById("streamList");
 
+function formatTimeLeft(totalSeconds) {
+    if (totalSeconds <= 0) return "Fully unlocked";
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+
+    const parts = [];
+    if (days > 0) parts.push(days + "d");
+    if (days > 0 || hours > 0) parts.push(hours + "h");
+    if (days > 0 || hours > 0 || minutes > 0) parts.push(minutes + "m");
+    parts.push(seconds + "s");
+
+    return parts.join(" ") + " left";
+}
+
+function tickTimeLeftLabels() {
+    const now = Math.floor(Date.now() / 1000);
+    document.querySelectorAll(".time-left").forEach(el => {
+        const state = el.dataset.state;
+
+        if (state === "paused") {
+            el.textContent = "Paused";
+            return;
+        }
+        if (state === "inactive") {
+            el.textContent = "Completed";
+            return;
+        }
+
+        const end = Number(el.dataset.end);
+        el.textContent = formatTimeLeft(end - now);
+    });
+}
+
+setInterval(tickTimeLeftLabels, 1000);
+
 async function pauseStream(id) {
     try {
         const tx = await contract.pauseStream(id);
@@ -60,6 +97,11 @@ async function loadStreams() {
         const unlockedEth = Number(ethers.utils.formatEther(unlocked.add(withdrawn)));
         const percent = total > 0 ? Math.min(100, (unlockedEth / total) * 100) : 100;
 
+        const endTime = Number(startTime) + Number(streamDuration);
+        let timeState = "active";
+        if (!active) timeState = "inactive";
+        else if (paused) timeState = "paused";
+
         const card = document.createElement("div");
         card.className = "stream-card";
         card.innerHTML = `
@@ -69,6 +111,7 @@ async function loadStreams() {
             <p class="address-line">From: <span class="mono">${sender}</span></p>
             <p class="address-line">To: <span class="mono">${streamRecipient}</span></p>
             <p class="amount-line">${unlockedEth.toFixed(5)} / ${total.toFixed(5)} ETH</p>
+            <p class="time-left" data-end="${endTime}" data-state="${timeState}"></p>
             <div class="progress-track">
                 <div class="progress-fill" style="width:${percent}%"></div>
             </div>
@@ -100,4 +143,6 @@ async function loadStreams() {
     if (shown === 0) {
         streamList.innerHTML = "<p class='empty'>No streams yet.</p>";
     }
+
+    tickTimeLeftLabels();
 }
