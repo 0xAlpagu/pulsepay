@@ -25,6 +25,7 @@ async function withdrawStream(id) {
         const tx = await contract.withdraw(id);
         await tx.wait();
         loadStreams();
+        if (typeof refreshBalance === "function") refreshBalance();
     } catch (err) {
         console.error(err);
     }
