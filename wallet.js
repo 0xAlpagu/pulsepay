@@ -142,3 +142,31 @@ async function autoConnectIfAuthorized() {
 
 connectBtn.addEventListener("click", toggleWallet);
 autoConnectIfAuthorized();
+
+/* ---------- React to wallet-side changes ---------- */
+
+if (window.ethereum && window.ethereum.on) {
+    window.ethereum.on("accountsChanged", async (accounts) => {
+        if (!contract) return; // we weren't connected on this page anyway
+
+        if (accounts.length === 0) {
+            // User disconnected all accounts from this site in their wallet.
+            await disconnectWallet();
+            return;
+        }
+
+        const newAddress = accounts[0];
+        if (myAddress && newAddress.toLowerCase() === myAddress.toLowerCase()) return;
+
+        // A different account is now active — reconnect cleanly to it.
+        await connectWallet();
+    });
+
+    window.ethereum.on("chainChanged", () => {
+        if (!contract) return; // not connected, nothing to reconcile
+
+        // ethers v5 providers don't handle an in-place chain swap safely,
+        // so the simplest reliable fix is to reload with the new chain state.
+        window.location.reload();
+    });
+}
