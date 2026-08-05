@@ -321,6 +321,13 @@ a, button, input, textarea, select { font-family: inherit; }
     color: var(--pulse);
 }
 
+.balance-line {
+    display: block;
+    margin-top: 2px;
+    color: var(--signal);
+    font-size: 0.74rem;
+}
+
 .back-link {
     display: block;
     width: min(1200px, 90%);
@@ -403,6 +410,14 @@ a, button, input, textarea, select { font-family: inherit; }
 }
 
 .custom-duration-row.visible { display: grid; margin-bottom: 12px; }
+
+.fee-preview {
+    margin-top: -4px;
+    margin-bottom: 12px;
+    font-size: 0.78rem;
+    color: var(--muted-dim);
+    font-family: var(--font-mono);
+}
 
 #createStream {
     width: 100%;
@@ -494,7 +509,14 @@ a, button, input, textarea, select { font-family: inherit; }
 .stream-card .amount-line {
     font-family: var(--font-mono);
     font-size: 0.95rem;
-    margin: 10px 0 6px;
+    margin: 10px 0 4px;
+}
+
+.time-left {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--muted-dim);
+    margin-bottom: 10px;
 }
 
 .progress-track {
@@ -556,10 +578,4 @@ footer {
     .nav-cards { grid-template-columns: 1fr; margin-top: 14px; }
     .dashboard { grid-template-columns: repeat(2, 1fr); }
     .nav-card-top { flex-direction: column; align-items: flex-start; }
-}
-.balance-line {
-    display: block;
-    margin-top: 2px;
-    color: var(--signal);
-    font-size: 0.74rem;
 }
