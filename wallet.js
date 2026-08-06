@@ -54,7 +54,7 @@ async function refreshBalance() {
     if (!provider || !myAddress || !walletAddress) return;
     try {
         const bal = await provider.getBalance(myAddress);
-        const eth = Number(ethers.utils.formatEther(bal)).toFixed(4);
+        const eth = Number(ethers.utils.formatEther(bal)).toFixed(8);
         walletAddress.innerHTML = shortenAddress(myAddress) + '<span class="balance-line">' + eth + ' ETH</span>';
     } catch (err) {
         console.error(err);
