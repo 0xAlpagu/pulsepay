@@ -119,6 +119,9 @@ a, button, input, textarea, select { font-family: inherit; }
 .btn-connect.connected {
     background: linear-gradient(135deg, var(--signal), var(--signal-dim));
     box-shadow: 0 8px 24px rgba(61, 220, 151, 0.25);
+    min-width: 190px;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .btn-connect.connected:hover {
