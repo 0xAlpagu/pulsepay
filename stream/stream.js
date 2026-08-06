@@ -33,7 +33,7 @@ function updateFeePreview() {
     const fee = (val * PLATFORM_FEE_BPS) / 10000;
     const net = val - fee;
     feePreview.textContent =
-        `0.25% platform fee: ${fee.toFixed(6)} ETH \u2014 recipient streams ${net.toFixed(6)} ETH`;
+        `0.25% platform fee: ${fee.toFixed(8)} ETH \u2014 recipient streams ${net.toFixed(8)} ETH`;
 }
 
 amount.addEventListener("input", updateFeePreview);
