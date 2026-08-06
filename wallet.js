@@ -77,7 +77,10 @@ async function connectWallet() {
         if (networkName) networkName.textContent = describeNetwork(network.chainId) + " (" + network.chainId + ")";
 
         contract = new ethers.Contract(contractAddress, contractABI, signer);
-        connectBtn.textContent = "Connected: " + shortenAddress(myAddress);
+
+        const label = "Connected: " + shortenAddress(myAddress);
+        connectBtn.dataset.connectedLabel = label;
+        connectBtn.textContent = label;
         connectBtn.classList.add("connected");
 
         await refreshBalance();
@@ -116,6 +119,7 @@ async function disconnectWallet() {
 
     if (walletAddress) walletAddress.textContent = "Not Connected";
     if (networkName) networkName.textContent = "Unknown";
+    delete connectBtn.dataset.connectedLabel;
     connectBtn.textContent = "Connect Wallet";
     connectBtn.classList.remove("connected");
 
@@ -141,6 +145,19 @@ async function autoConnectIfAuthorized() {
 }
 
 connectBtn.addEventListener("click", toggleWallet);
+
+connectBtn.addEventListener("mouseenter", () => {
+    if (connectBtn.classList.contains("connected")) {
+        connectBtn.textContent = "Disconnect";
+    }
+});
+
+connectBtn.addEventListener("mouseleave", () => {
+    if (connectBtn.classList.contains("connected")) {
+        connectBtn.textContent = connectBtn.dataset.connectedLabel || "Connected";
+    }
+});
+
 autoConnectIfAuthorized();
 
 /* ---------- React to wallet-side changes ---------- */
