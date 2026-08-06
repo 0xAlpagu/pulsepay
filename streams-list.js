@@ -110,7 +110,7 @@ async function loadStreams() {
             </span>
             <p class="address-line">From: <span class="mono">${sender}</span></p>
             <p class="address-line">To: <span class="mono">${streamRecipient}</span></p>
-            <p class="amount-line">${unlockedEth.toFixed(5)} / ${total.toFixed(5)} ETH</p>
+            <p class="amount-line">${unlockedEth.toFixed(8)} / ${total.toFixed(8)} ETH</p>
             <p class="time-left" data-end="${endTime}" data-state="${timeState}"></p>
             <div class="progress-track">
                 <div class="progress-fill" style="width:${percent}%"></div>
