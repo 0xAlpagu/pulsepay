@@ -44,8 +44,8 @@ function updateBatchFeePreview() {
     const fee = (totalEth * PLATFORM_FEE_BPS) / 10000;
     const net = totalEth - fee;
     batchFeePreview.textContent =
-        `${validCount} recipient${validCount > 1 ? "s" : ""} \u00b7 total sent: ${totalEth.toFixed(6)} ETH \u2014 ` +
-        `0.25% platform fee: ${fee.toFixed(6)} ETH \u2014 recipients stream ${net.toFixed(6)} ETH combined`;
+        `${validCount} recipient${validCount > 1 ? "s" : ""} \u00b7 total sent: ${totalEth.toFixed(8)} ETH \u2014 ` +
+        `0.25% platform fee: ${fee.toFixed(8)} ETH \u2014 recipients stream ${net.toFixed(8)} ETH combined`;
 }
 
 batchRows.addEventListener("input", updateBatchFeePreview);
