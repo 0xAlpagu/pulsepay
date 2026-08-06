@@ -30,7 +30,10 @@
             <p>Real-time streams on GIWA</p>
         </div>
     </a>
-    <button id="connectWallet" class="btn-connect">Connect Wallet</button>
+    <div class="header-actions">
+        <a href="https://faucet.giwa.io" target="_blank" rel="noopener" class="btn-faucet">Faucet</a>
+        <button id="connectWallet" class="btn-connect">Connect Wallet</button>
+    </div>
 </header>
 
 <main>
@@ -56,6 +59,8 @@
     <div class="field-row custom-duration-row" id="customDurationRowSingle">
         <input id="customDurationValueSingle" type="number" min="1" placeholder="Amount (e.g. 3)">
         <select id="customDurationUnitSingle">
+            <option value="1">Seconds</option>
+            <option value="60">Minutes</option>
             <option value="3600" selected>Hours</option>
             <option value="86400">Days</option>
             <option value="604800">Weeks</option>
